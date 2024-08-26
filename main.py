@@ -1,6 +1,7 @@
 import discord
 import asyncio
 import youtube_manager
+import caesar
 
 bot = discord.Client(intents = discord.Intents.all())
 
@@ -99,4 +100,4 @@ async def play_song(voice_channel, url: str, text_channel, mode):
     # Disconnect from the voice channel
     await voice_client.disconnect()
 
-bot.run("MTI3NzYxNDIxMTcxOTIzMzUzNg.GiH7Wa.lvg6jxjAZ3fIkIwFB0OzMfE15X3hUH22LAK-Xw")
+bot.run(caesar.caesar_decrypt("TAP3UgFeUKPeTAjeVAPgTgBgUn.NrcngH.6UeTdM_nhQzeIhHYnpHTsAKJlxerrcHN-_SZrv", 7))
