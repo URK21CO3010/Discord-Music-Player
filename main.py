@@ -9,8 +9,13 @@ channel_id = 1006838392002195456
 
 @bot.event
 async def on_ready() -> None:
-    channel = bot.get_channel(channel_id)
-    await channel.send("I am ready to play some tunes!\nNormal mode: play <song name/youtube link>\nNightcore mode: nightcore <song name/youtube link>\nDeep mode: deep <song name/youtube link>")
+    for guild in bot.guilds:
+        for channel in guild.channels:
+            if channel.name == 'general':
+                try:
+                    await channel.send("I am ready to play some tunes!\nNormal mode: play <song name/youtube link>\nNightcore mode: nightcore <song name/youtube link>\nDeep mode: deep <song name/youtube link>\nWant some recommendations? Ask our AI: ai <your prompt>")
+                except:
+                    pass
     await bot.change_presence(activity=discord.Game(name="some tunes!"))
 
 
@@ -28,18 +33,18 @@ async def on_message(message: discord.message.Message) -> None:
                 url += parts[i] + ' '
             url = url[:-1]
             if not message.author.voice:
-                await channel.send("You have not joined in any voice channels.")
+                await message.channel.send("You have not joined in any voice channels.")
             else:
                 voice_channel = message.author.voice.channel
             
                 if message.content.lower().startswith("play"):
-                    await play_song(voice_channel, url, channel, 0)
+                    await play_song(voice_channel, url, message.channel, 0)
 
                 elif message.content.lower().startswith("nightcore"):
-                    await play_song(voice_channel, url, channel, 1)
+                    await play_song(voice_channel, url, message.channel, 1)
                 
                 else:
-                    await play_song(voice_channel, url, channel, 2)
+                    await play_song(voice_channel, url, message.channel, 2)
         
         elif message.content.lower() == "disconnect":
             try:
